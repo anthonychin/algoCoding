@@ -14,7 +14,7 @@ public class grafixMask {
 //		for (String string : splittedString) {
 //			System.out.println(string);
 //		}
-		String[] test =  {"4 3 2 5", "2 2 2 2"};
+		String[] test =  {"4 3 2 5", "2 2 2 2", "300 399 500 199"};
 		sortedArea(test);
 	}
 
@@ -22,7 +22,7 @@ public class grafixMask {
 		//System.out.println(++check);
 		System.out.println(grid[x][y] + "x is: " + x + "y is: " + y);
 		result[0] += doFill(fillX, fillY);
-		result[1] += doFill(fillX, fillY);
+		result[1] += doFill(fillX, fillY);+
 	}*/
 	
 	public static int[] sortedArea (String[] rectangles){
@@ -47,11 +47,12 @@ public class grafixMask {
 			}
 			//TODO bad method need to fix
 			for (int pixel = 0; pixel < rectangleValue.length/2; pixel += 2){
-				grid[pixel][pixel+1] = true;
-				System.out.println(pixel);
-				System.out.println(pixel+1);
-				System.out.println(grid[pixel][pixel+1]);
+				grid[rectangleValue[pixel]][rectangleValue[pixel+1]] = false;
+				//System.out.println(rectangleValue[pixel]);
+				//System.out.println(rectangleValue[pixel+1]);
+				//System.out.println(grid[rectangleValue[pixel]][rectangleValue[pixel+1]]);
 			}
+			System.out.println(grid[2][2]);
 		}
 		
 		int[] result = new int [2];
