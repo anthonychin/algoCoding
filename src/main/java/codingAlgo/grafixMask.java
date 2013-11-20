@@ -14,7 +14,8 @@ public class grafixMask {
 //		for (String string : splittedString) {
 //			System.out.println(string);
 //		}
-		String[] test =  {"4 3 2 5", "2 2 2 2", "300 399 500 199"};
+		//String[] test =  {"4 3 2 5", "2 2 2 2", "300 399 500 199"};
+		String[] test = {"0 292 399 307"};
 		sortedArea(test);
 	}
 
@@ -29,42 +30,49 @@ public class grafixMask {
 		
 		grid = new boolean[600][400];
 
-		// fill the masking layer
+		// fill the masking layer to true
 		for(int x = 0; x < grid.length; x++){
 			for(int y = 0; y < grid[x].length; y++){
 				grid[x][y] = true;
 			}
 		}
+
 		for(String rectangle : rectangles) {
 			//split the string to remove all white space
 			// '\s' removes a whitespace character [ \t\n\x0B\f\r]
 			// beginning with '\' is an escape construct. (need to use twice for it to compile)
+			
+			// Takke the string { 0, 292, 399, 307 } and break it into individual integer.
 			String[] rectangleSplit = rectangle.split("\\s");
 			int[] rectangleValue = new int[rectangleSplit.length];
 			for (int val = 0; val < rectangleSplit.length; val++) {
 				rectangleValue[val] = Integer.parseInt(rectangleSplit[val]);
-				System.out.println(rectangleValue[val]);
+				//System.out.println(rectangleValue[val]);
 			}
-			//TODO bad method need to fix
+			
+			// 0 and 292 as left top pixel and make it false
+			// 399 and 307 as right bottom pixel and make it false
 			for (int pixel = 0; pixel < rectangleValue.length/2; pixel += 2){
 				grid[rectangleValue[pixel]][rectangleValue[pixel+1]] = false;
-				//System.out.println(rectangleValue[pixel]);
-				//System.out.println(rectangleValue[pixel+1]);
-				//System.out.println(grid[rectangleValue[pixel]][rectangleValue[pixel+1]]);
 			}
-			System.out.println(grid[2][2]);
+			//System.out.println(grid[2][2]);
 		}
+		
+		
 		
 		int[] result = new int [2];
 		
 		for(int x = 0; x < grid.length; x++){
 			for(int y = 0; y < grid[x].length; y++){
-				result[0] += doFill(fillX, fillY);
-				result[1] += doFill(fillX, fillY);
+				if(grid[x][y]) {
+					// something
+				}
 			}
-		}		
-		
-		return null;
+		}
+
+		//System.out.println(grid[200][300]);
+		//System.out.println(result.toString());
+		return result;
 		
 	}
 	
@@ -73,11 +81,12 @@ public class grafixMask {
 		if(x < 0 || x >=fillX) { return 0; }
 		if (y < 0 || y >= fillY) { return 0; }
 		
-		if(grid[x][y]) { return 0; }
+		if(!grid[x][y]) { return 0; }
 		
-		grid[x][y] = true;
+		// record that you visit this node.
+		grid[x][y] = false;
 		
-		
-		return (1 + doFill(x-1,y) + doFill(x+1,y) + doFill(x,y-1) + doFill(x,y+1));
+		//return 1;
+		return 1 + doFill(x-1,y) + doFill(x+1,y) + doFill(x,y-1) + doFill(x,y+1);
 	}
 }
