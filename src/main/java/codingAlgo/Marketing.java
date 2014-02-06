@@ -3,6 +3,13 @@ package codingAlgo;
 import java.util.Arrays;
 import java.util.Stack;
 
+/**
+* TCCC '03 Round 2 - Division I, Level Two
+* http://community.topcoder.com/tc?module=ProblemDetail&rd=4472&pm=1524
+*
+* @author Anthony Chin
+*/
+
 public class Marketing {
 	boolean[][] graph;
 	boolean oppositeCycle = false;
