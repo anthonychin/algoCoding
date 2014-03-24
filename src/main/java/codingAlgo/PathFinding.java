@@ -10,18 +10,34 @@ public class PathFinding {
 		int width = board[0].length();
 		int height = board.length;
 		
-		Node start = new Node();
+		Node start = new Node(0,0,0,0,0);
 		
 		//Find the first position of A and B.
 		//Save them in start
-		
-		Queue<Node> q = new LinkedList();
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if (board[i].charAt(j) == 'A') {
+					start.playerOneX = j;
+					start.playerOneY = i;
+				} else if (board[i].charAt(j) == 'B') {
+					start.playerTwoX = j;
+					start.playerTwoY = i;
+				}
+			}
+		}
+
+		Queue<Node> q = new LinkedList<Node>();
 		pushToQueue(q, start);
 		while (!q.isEmpty()) {
 			Node top = q.peek();
 			q.remove();
 		
-			// Check if p1 or p2 is out of bounds, or on an X scare. (continue)
+			// Check if p1 or p2 is out of bounds, or on an X square. (continue)
+			if (top.playerOneX > width || top.playerOneX < 0 || top.playerOneY > height || top.playerOneY < 0 ||
+					top.playerTwoX > width || top.playerTwoX < 0 || top.playerTwoY > width || top.playerTwoY < 0) {
+				return -1;
+			}
+
 			// Check if p1 or p2 is on top of each other. continue
 		
 			// Check if current positions of A and B are oposite of each toerh. If yes. finished
@@ -39,7 +55,11 @@ public class PathFinding {
 					for (int playerTwoDeltaX = -1; playerTwoDeltaX < 2; playerTwoDeltaX++) {
 						for (int playerTwoDeltaY = -1; playerTwoDeltaY < 2; playerTwoDeltaY++) {
 							// NOTE: MAKE SURE PLAYER ONE AND PLAYER TWO DID NOT SWAP POSITION
+							if (top.playerOneX == top.playerTwoX && top.playerOneY == top.playerTwoY) {
+								return -1;
+							}
 							
+							pushToQueue(q, new Node(top.playerOneX + playerOneDeltaX, top.playerOneY + playerOneDeltaY, top.playerTwoX + playerTwoDeltaX, top.playerTwoY + playerTwoDeltaY, top.steps+1));
 						}
 					}
 				}
@@ -56,6 +76,14 @@ public class PathFinding {
 		int playerTwoY;
 
 		int steps;
+
+		public Node(int p1X, int p1Y, int p2X, int p2Y, int steps) {
+			playerOneX = p1X;
+			playerOneY = p1Y;
+			playerTwoX = p2X;
+			playerTwoY = p2Y;
+			this.steps = steps;
+		}
 	}
 	
 	private void pushToQueue(Queue<Node> q, Node v) {
